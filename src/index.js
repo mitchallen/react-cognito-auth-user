@@ -1,24 +1,29 @@
-/*
-    Module: @mitchallen/react-cognito-auth-user
-    Author: Mitch Allen
-*/
+import AWS from "aws-sdk";
 
-import React from 'react';
-// import PropTypes from 'prop-types';
+import getAwsCredentials from './GetAwsCredentials';
+import getCurrentUser from './GetCurrentUser';
+import getUserToken from './GetUserToken';
 
-class CognitoAuthUser extends React.Component {
-  render() {
-    return (
-    	<div>
-      		<div>Package: @mitchallen/react-cognito-auth-user</div>
-      		<div>Component: CognitoAuthUser</div>
-      	</div>
-    );
+export default async function authUser( params ) {
+
+  // alert("authUser:\n\n" + JSON.stringify(params));
+
+  if (
+    AWS.config.credentials &&
+    Date.now() < AWS.config.credentials.expireTime - 60000
+  ) {
+    return true;
   }
+
+  const currentUser = getCurrentUser(params);
+
+  if (currentUser === null) {
+    return false;
+  }
+
+  const userToken = await getUserToken(currentUser);
+
+  await getAwsCredentials( { userToken, ...params } );
+
+  return true;
 }
-
-// CognitoAuthUser.propTypes = {
-//   // someProp: PropTypes.isRequired,
-// };
-
-export default CognitoAuthUser;
