@@ -1,6 +1,6 @@
 @mitchallen/react-cognito-auth-user
 ==
-CognitoAuthUser React component
+Cognito AuthUser React method
 --
 
 <p align="left">
