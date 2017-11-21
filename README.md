@@ -30,84 +30,8 @@ CognitoAuthUser React component
 
 ## Usage
 
-1: Add this line near the top of your file (like ```src/App.js```):
+TODO
 
-```
-import CognitoAuthUser from '@mitchallen/react-cognito-auth-user';
-```
-
-__NOTE:__ CognitoAuthUser must be Capitalized or component won't render.
-
-2: Somewhere in the middle of the __render__ method add this line:
-
-```
-<CognitoAuthUser />
-```
-
-
-* * *
-
-## Testing
-
-### Run the Tests
-
-To test, go to the root folder and type (sans __$__):
-
-    $ npm test
-    
-## Component Testing
-
-### Prerequisite
-
-If you've never installed __create-react-app__ (you may need to use ```sudo```):
-
-```
-$ npm install -g create-react-app
-```
-
-### Create a local npm link
-
-In the original component folder (you may need to use ```sudo```):
-
-```
-$ npm link
-```
-
-### Create a test package
-
-Create a root test folder and then do the following:
-
-```
-$ create-react-app react-cognito-auth-user-test
-$ cd react-cognito-auth-user-test
-$ npm link @mitchallen/react-cognito-auth-user
-```
-
-### Modify src/App.js
-
-1: Add this line near the top:
-
-```
-import CognitoAuthUser from '@mitchallen/react-cognito-auth-user';
-```
-
-__NOTE:__ CognitoAuthUser must be Capitalized or component won't render.
-
-2: Somewhere in the middle of the __render__ method add this line:
-
-```
-<CognitoAuthUser />
-```
-
-### Run The Test App
-
-```
-$ npm start
-```
-
-### Cleanup
-
-Remember to unlink when done.
    
 * * *
  
