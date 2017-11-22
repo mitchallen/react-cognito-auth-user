@@ -30,8 +30,131 @@ Cognito AuthUser React method
 
 ## Usage
 
-TODO
+Combine the code below with example code from [@mitchallen/react-cognito-login](https://www.npmjs.com/package/@mitchallen/react-cognito-login).
 
+```
+import AWS from "aws-sdk";
+import authUser from "@mitchallen/react-cognito-auth-user";
+
+class App extends Component {
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      isAuthenticated: false,
+      isAuthenticating: true,
+      isLoadingUserToken: true,
+      isLoading: false
+    };
+  }
+
+  async componentDidMount() {
+    try {
+      if (await authUser({
+        awsConfig: AWS.config, 
+        userPoolId: USER_POOL_ID,
+        clientId: APP_CLIENT_ID,
+        region: REGION, 
+        identyPoolId: IDENTITY_POOL_ID
+      })) {
+        this.userHasAuthenticated(true);
+      }
+    }
+    catch(e) {
+      alert(e);
+    }
+  
+    this.setState({ isAuthenticating: false });
+  }
+
+  userHasAuthenticated = authenticated => {
+    this.setState({ isAuthenticated: authenticated });
+  }
+  
+  render() {
+
+    return (
+      <div className="App">
+		...
+      </div>
+    );
+  }
+}
+```
+
+## Behind the Scenes
+
+Behind the scenes the AWS.config.credentials are updated using code similar to what is listed below.
+
+Call authUser just before making a call to Amazon Services (for example S3) to set the proper credentials.
+
+```
+const authenticator = `cognito-idp.${region}.amazonaws.com/${userPoolId}`;
+
+awsConfig.update({ region: region });
+
+awsConfig.credentials = new AWS.CognitoIdentityCredentials({
+    IdentityPoolId: identyPoolId,
+    Logins: {
+        [authenticator]: userToken
+    }
+});
+```
+
+## Example S3 Call
+
+This example shows how to use authUser to make an S3 call.
+
+```
+import authUser from "@mitchallen/react-cognito-auth-user";
+
+export default async function s3GetTextFile( params ) {
+
+  let { AWS, file, bucket, ...rest } = params;
+    
+  let awsConfig = AWS.config;
+
+  if (!await authUser( { awsConfig, ...rest } )) {
+    throw new Error("User is not logged in");
+  }
+    
+  const s3 = new AWS.S3({
+    params: {
+      Bucket: bucket
+    }
+  });
+          
+  return s3.getObject({
+    Bucket: bucket,
+      Key: file
+  })
+  .promise()
+  .then( (data) => data.Body.toString('utf-8') );
+}
+```
+
+You would call the above like this:
+
+```
+const BUCKET_FILE = 'cognito/demo/demo.txt';
+
+s3GetTextFile({ 
+    AWS: AWS,
+    bucket: S3_BUCKET,
+    file: BUCKET_FILE, 
+    userPoolId: USER_POOL_ID,
+    clientId: APP_CLIENT_ID,
+    region: REGION, 
+    identyPoolId: IDENTITY_POOL_ID
+})
+.then((data) => {
+    alert(data);
+})
+.catch(function(err) {
+    alert(err);
+});
+```
    
 * * *
  
