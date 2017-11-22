@@ -174,6 +174,10 @@ Add unit tests for any new or changed functionality. Lint and test your code.
 
 ## Version History
 
+#### Version 0.1.2
+
+* added first pass at documentation
+
 #### Version 0.1.1
 
 * removed aws-sdk dependency
