@@ -1,16 +1,16 @@
-import AWS from "aws-sdk";
-
-import getAwsCredentials from './GetAwsCredentials';
-import getCurrentUser from './GetCurrentUser';
-import getUserToken from './GetUserToken';
+import getAwsCredentials from './components/GetAwsCredentials';
+import getCurrentUser from './components/GetCurrentUser';
+import getUserToken from './components/GetUserToken';
 
 export default async function authUser( params ) {
 
   // alert("authUser:\n\n" + JSON.stringify(params));
 
+  const { awsConfig } = params;
+
   if (
-    AWS.config.credentials &&
-    Date.now() < AWS.config.credentials.expireTime - 60000
+    awsConfig.credentials &&
+    Date.now() < awsConfig.credentials.expireTime - 60000
   ) {
     return true;
   }
