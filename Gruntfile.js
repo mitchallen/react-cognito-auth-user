@@ -2,7 +2,6 @@ module.exports = function (grunt) {
 
     grunt.loadNpmTasks('grunt-bump');
     grunt.loadNpmTasks('grunt-shell');
-    grunt.loadNpmTasks('grunt-jsdoc-to-markdown');
     grunt.loadNpmTasks('grunt-upcoming');
 
     grunt.initConfig({
@@ -11,6 +10,9 @@ module.exports = function (grunt) {
         pkg: grunt.file.readJSON('package.json'),
 
         shell: {
+            build: {
+                command: 'npm run build'
+            },
             publish: {
                 command: 'npm publish'
             },
@@ -39,13 +41,6 @@ module.exports = function (grunt) {
             }
         },
 
-        jsdoc2md: {
-              oneOutputFile: {
-                src: 'src/*.js',
-                dest: 'DOC-API.md'
-              }
-        },
-
         upcoming: {
             default: {
                 files: [
@@ -56,10 +51,8 @@ module.exports = function (grunt) {
 
     });
 
-    grunt.registerTask('default', ['upcoming:patch','build']);
-    grunt.registerTask('build-doc', ['jsdoc2md']);
-    // grunt.registerTask("build",   ['build-doc']);
-    grunt.registerTask("build",   []);
+    grunt.registerTask('default', ['upcoming:patch','build']);;
+    grunt.registerTask("build",   ['shell:build']);
     grunt.registerTask('pubinit', ['build','shell:pubinit']);
     grunt.registerTask('publish', ['upcoming:patch','build','bump','shell:publish']);
     grunt.registerTask('pubminor', ['upcoming:minor','build','bump:minor','shell:publish']);
