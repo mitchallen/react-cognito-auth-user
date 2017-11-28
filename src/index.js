@@ -6,11 +6,11 @@ export default async function authUser( params ) {
 
   // alert("authUser:\n\n" + JSON.stringify(params));
 
-  const { awsConfig } = params;
+  const { AWS } = params;
 
   if (
-    awsConfig.credentials &&
-    Date.now() < awsConfig.credentials.expireTime - 60000
+    AWS.config.credentials &&
+    Date.now() < AWS.config.credentials.expireTime - 60000
   ) {
     return true;
   }

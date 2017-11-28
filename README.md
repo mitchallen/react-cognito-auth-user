@@ -112,10 +112,8 @@ import authUser from "@mitchallen/react-cognito-auth-user";
 export default async function s3GetTextFile( params ) {
 
   let { AWS, file, bucket, ...rest } = params;
-    
-  let awsConfig = AWS.config;
 
-  if (!await authUser( { awsConfig, ...rest } )) {
+  if (!await authUser( { AWS, ...rest } )) {
     throw new Error("User is not logged in");
   }
     
@@ -173,6 +171,11 @@ Add unit tests for any new or changed functionality. Lint and test your code.
 * * *
 
 ## Version History
+
+#### Version 0.2.0
+
+* Now requires AWS parameter
+* No longer accepts awsConfig parameter
 
 #### Version 0.1.4
 
