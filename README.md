@@ -174,6 +174,10 @@ Add unit tests for any new or changed functionality. Lint and test your code.
 
 ## Version History
 
+#### Version 0.1.4
+
+* fixed AWS.config reference
+
 #### Version 0.1.3
 
 * cleaned up some build scripts and dependencies

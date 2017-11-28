@@ -15,5 +15,5 @@
         }
     });
 
-    return AWS.config.credentials.getPromise();
+    return awsConfig.credentials.getPromise();
 }
