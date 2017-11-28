@@ -1,6 +1,6 @@
 {
   "name": "@mitchallen/react-cognito-auth-user",
-  "version": "0.1.4",
+  "version": "0.2.0",
   "description": "Cognito AuthUser React method",
   "main": "build/index.js",
   "scripts": {
