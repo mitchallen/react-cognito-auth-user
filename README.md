@@ -52,7 +52,7 @@ class App extends Component {
   async componentDidMount() {
     try {
       if (await authUser({
-        awsConfig: AWS.config, 
+        AWS: AWS, 
         userPoolId: USER_POOL_ID,
         clientId: APP_CLIENT_ID,
         region: REGION, 
@@ -92,9 +92,9 @@ Call authUser just before making a call to Amazon Services (for example S3) to s
 ```
 const authenticator = `cognito-idp.${region}.amazonaws.com/${userPoolId}`;
 
-awsConfig.update({ region: region });
+AWS.config({ region: region });
 
-awsConfig.credentials = new AWS.CognitoIdentityCredentials({
+AWS.config = new AWS.CognitoIdentityCredentials({
     IdentityPoolId: identyPoolId,
     Logins: {
         [authenticator]: userToken
@@ -171,6 +171,10 @@ Add unit tests for any new or changed functionality. Lint and test your code.
 * * *
 
 ## Version History
+
+#### Version 0.2.1
+
+* updated documentation for change in parameters
 
 #### Version 0.2.0
 
